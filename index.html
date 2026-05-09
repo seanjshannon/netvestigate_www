@@ -3,31 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Netvestigate — Cybersecurity Research & Consulting</title>
-<meta name="description" content="Netvestigate is a cybersecurity research and consulting firm specializing in threat intelligence, vulnerability research, and security advisory.">
+<title>Netvestigate — Cybersecurity Research & Advisory</title>
+<meta name="description" content="Netvestigate is a research-led cybersecurity advisory firm. Independent threat research, security architecture, detection engineering, and adversary simulation for organizations that need more than compliance.">
+<meta property="og:title" content="Netvestigate — Cybersecurity Research & Advisory">
+<meta property="og:description" content="Research-led cybersecurity advisory for organizations that need more than compliance.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://netvestigate.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,200..900,30..100,0..1;1,9..144,200..900,30..100,0..1&family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,200..900,30..100,0..1;1,9..144,200..900,30..100,0..1&family=JetBrains+Mono:wght@300..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0c0d0f;
-  --ink-2: #131418;
-  --ink-3: #1c1d22;
+  --ink: #0a0c10;
+  --ink-2: #11141a;
+  --ink-3: #1a1d24;
   --paper: #f1ece1;
   --paper-dim: #c9c2b3;
   --paper-faint: #6e6a60;
-  --rule: #2a2b30;
-  --accent: #e07a3c;
-  --accent-bright: #ff8a45;
-  --accent-deep: #a8501f;
-  --classified: #c83232;
-  --grid: rgba(241, 236, 225, 0.045);
+  --rule: #25272e;
+  --rule-light: #2f323a;
+  --accent: #4d96cc;
+  --accent-bright: #6eaedb;
+  --accent-deep: #2c6e9e;
+  --signal: #d9a447;
+  --grid: rgba(241, 236, 225, 0.04);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
-
 body {
   background: var(--ink);
   color: var(--paper);
@@ -35,1018 +37,753 @@ body {
   font-weight: 380;
   font-size: 17px;
   line-height: 1.6;
-  font-feature-settings: "ss01", "ss02";
+  font-feature-settings: "ss01";
   overflow-x: hidden;
   position: relative;
 }
-
-/* Subtle grain texture overlay */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 100;
-  opacity: 0.35;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.85 0 0 0 0.18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.92 0 0 0 0 0.85 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: overlay;
 }
-
-/* Forensic grid background */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse at 70% 30%, black 0%, transparent 75%);
-}
-
 a { color: inherit; text-decoration: none; }
-
 ::selection { background: var(--accent); color: var(--ink); }
 
-/* ───────── NAV ───────── */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 50;
-  padding: 22px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  backdrop-filter: blur(18px) saturate(140%);
-  background: rgba(12, 13, 15, 0.65);
-  border-bottom: 1px solid var(--rule);
-}
+.eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+.eyebrow .num { color: var(--paper-faint); margin-right: 8px; }
+.h1 { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(48px, 7.5vw, 120px); line-height: 0.92; letter-spacing: -0.035em; font-variation-settings: "SOFT" 30, "opsz" 144; }
+.h1 em { font-style: italic; font-weight: 300; color: var(--accent); font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144; }
+.h2 { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(34px, 4.6vw, 60px); line-height: 1.02; letter-spacing: -0.025em; font-variation-settings: "SOFT" 50, "opsz" 144; }
+.h2 em { font-style: italic; color: var(--accent); font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144; }
 
-.logo {
-  font-family: 'Fraunces', serif;
-  font-weight: 600;
-  font-size: 22px;
-  letter-spacing: -0.02em;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-variation-settings: "SOFT" 50, "WONK" 1;
-}
-
-.logo-mark {
-  width: 28px; height: 28px;
-  border: 1px solid var(--accent);
-  display: grid;
-  place-items: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--accent);
-  position: relative;
-}
-.logo-mark::before, .logo-mark::after {
-  content: '';
-  position: absolute;
-  background: var(--accent);
-}
-.logo-mark::before { top: -3px; left: -3px; width: 6px; height: 1px; }
-.logo-mark::after { top: -3px; left: -3px; width: 1px; height: 6px; }
-
-.logo-italic { font-style: italic; font-weight: 300; color: var(--paper-dim); }
-
-.nav-links {
-  display: flex;
-  gap: 36px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-
-.nav-links a {
-  color: var(--paper-dim);
-  transition: color 0.2s;
-  position: relative;
-}
-.nav-links a:hover { color: var(--paper); }
-.nav-links a::before {
-  content: counter(link, decimal-leading-zero) ' / ';
-  color: var(--accent);
-  margin-right: 4px;
-}
-.nav-links { counter-reset: link; }
-.nav-links a { counter-increment: link; }
-
-.nav-cta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  padding: 10px 18px;
-  border: 1px solid var(--paper);
-  color: var(--paper);
-  transition: all 0.25s;
-}
-.nav-cta:hover {
-  background: var(--paper);
-  color: var(--ink);
-}
-
-/* ───────── HERO ───────── */
-.hero {
-  min-height: 100vh;
-  padding: 140px 40px 80px;
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  align-content: center;
-  z-index: 1;
-}
-
-.hero-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--paper-faint);
-  display: flex;
-  gap: 24px;
-  margin-bottom: 60px;
-  align-items: center;
-}
-.hero-meta .dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
-  animation: pulse 2.4s ease-in-out infinite;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
-}
-
-.hero-meta .classified {
-  color: var(--classified);
-  border: 1px solid var(--classified);
-  padding: 3px 8px;
-  font-weight: 600;
-}
-
-h1 {
-  font-family: 'Fraunces', serif;
-  font-weight: 300;
-  font-size: clamp(56px, 11vw, 180px);
-  line-height: 0.88;
-  letter-spacing: -0.045em;
-  font-variation-settings: "SOFT" 30, "WONK" 0, "opsz" 144;
-  margin-bottom: 50px;
-}
-
-h1 .line { display: block; }
-h1 .accent {
-  font-style: italic;
-  font-weight: 300;
-  color: var(--accent);
-  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
-}
-h1 .quiet {
-  color: var(--paper-dim);
-  font-weight: 200;
-}
-
-.hero-tag {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 60px;
-  align-items: start;
-  border-top: 1px solid var(--rule);
-  padding-top: 40px;
-  margin-top: 20px;
-}
-
-.hero-tag .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--paper-faint);
-}
-
-.hero-tag .description {
-  font-family: 'Newsreader', serif;
-  font-size: 21px;
-  line-height: 1.5;
-  font-weight: 300;
-  color: var(--paper);
-  max-width: 56ch;
-}
-.hero-tag .description em {
-  font-style: italic;
-  color: var(--accent);
-}
-
-.hero-tag .cta-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  align-items: flex-end;
-}
-
-.btn-primary {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  padding: 16px 24px;
-  background: var(--accent);
-  color: var(--ink);
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  transition: all 0.25s;
-}
-.btn-primary:hover {
-  background: var(--accent-bright);
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--accent-deep);
-}
-
-.btn-ghost {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  padding: 16px 24px;
-  color: var(--paper);
-  border: 1px solid var(--rule);
-  transition: all 0.25s;
-}
+.btn { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 15px 24px; display: inline-flex; align-items: center; gap: 12px; transition: all 0.25s; border: 1px solid transparent; cursor: pointer; }
+.btn-primary { background: var(--accent); color: var(--ink); }
+.btn-primary:hover { background: var(--accent-bright); transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--accent-deep); }
+.btn-ghost { color: var(--paper); border-color: var(--rule-light); }
 .btn-ghost:hover { border-color: var(--paper); }
 
-/* Hero corner marker */
-.corner-mark {
-  position: absolute;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--paper-faint);
-  letter-spacing: 0.1em;
-}
-.corner-tl { top: 110px; left: 40px; }
-.corner-tr { top: 110px; right: 40px; text-align: right; }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(20px) saturate(140%); background: rgba(10, 12, 16, 0.75); border-bottom: 1px solid var(--rule); }
+.logo { font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; font-variation-settings: "SOFT" 50, "WONK" 1; }
+.logo-mark { width: 28px; height: 28px; border: 1px solid var(--accent); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: var(--accent); position: relative; }
+.logo-mark::before, .logo-mark::after { content: ''; position: absolute; background: var(--accent); }
+.logo-mark::before { top: -3px; left: -3px; width: 6px; height: 1px; }
+.logo-mark::after { top: -3px; left: -3px; width: 1px; height: 6px; }
+.logo-italic { font-style: italic; font-weight: 300; color: var(--paper-dim); }
+.nav-links { display: flex; gap: 32px; font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; }
+.nav-links a { color: var(--paper-dim); transition: color 0.2s; }
+.nav-links a:hover { color: var(--paper); }
+.nav-cta { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; padding: 10px 20px; border: 1px solid var(--paper); color: var(--paper); transition: all 0.25s; }
+.nav-cta:hover { background: var(--paper); color: var(--ink); }
+
+.hero { min-height: 92vh; padding: 130px 40px 80px; position: relative; display: grid; grid-template-columns: 1fr; align-content: center; z-index: 1; }
+.hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at 75% 35%, black 0%, transparent 70%); pointer-events: none; }
+.hero > * { position: relative; z-index: 2; }
+.hero-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--paper-faint); display: flex; gap: 24px; margin-bottom: 56px; align-items: center; flex-wrap: wrap; }
+.hero-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 10px var(--signal); animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.hero-meta .sep { color: var(--rule-light); }
+
+.hero-rotator { position: relative; height: clamp(220px, 30vw, 400px); margin-bottom: 50px; }
+.hero-rotator .slide { position: absolute; inset: 0; opacity: 0; animation: rotate-slides 18s infinite; }
+.hero-rotator .slide:nth-child(1) { animation-delay: 0s; }
+.hero-rotator .slide:nth-child(2) { animation-delay: 6s; }
+.hero-rotator .slide:nth-child(3) { animation-delay: 12s; }
+@keyframes rotate-slides { 0%, 28%, 100% { opacity: 0; transform: translateY(15px); } 3%, 25% { opacity: 1; transform: translateY(0); } }
+
+.hero-tag { display: grid; grid-template-columns: 200px 1fr auto; gap: 50px; align-items: start; border-top: 1px solid var(--rule); padding-top: 36px; max-width: 1400px; }
+.hero-tag .label { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--paper-faint); }
+.hero-tag .description { font-size: 18px; line-height: 1.55; color: var(--paper-dim); max-width: 60ch; font-weight: 350; }
+.hero-tag .description em { font-style: italic; color: var(--paper); }
+.hero-tag .cta-stack { display: flex; flex-direction: column; gap: 12px; }
+.corner-mark { position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--paper-faint); letter-spacing: 0.1em; z-index: 3; }
+.corner-tl { top: 100px; left: 40px; }
+.corner-tr { top: 100px; right: 40px; text-align: right; }
 .corner-tr::before { content: '✕ '; color: var(--accent); }
 
-/* ───────── SECTION SHELL ───────── */
-section { padding: 140px 40px; position: relative; z-index: 1; }
-
-.section-head {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 60px;
-  align-items: baseline;
-  margin-bottom: 80px;
-  border-top: 1px solid var(--rule);
-  padding-top: 40px;
-}
-.section-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-.section-num span { color: var(--paper-faint); }
-
-.section-title {
-  font-family: 'Fraunces', serif;
-  font-weight: 300;
-  font-size: clamp(36px, 5vw, 68px);
-  line-height: 1;
-  letter-spacing: -0.025em;
-  font-variation-settings: "SOFT" 50, "opsz" 144;
-}
-.section-title em {
-  font-style: italic;
-  font-weight: 300;
-  color: var(--accent);
-  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
-}
-
-/* ───────── PRACTICES ───────── */
-.practices {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--rule);
-}
-
-.practice {
-  padding: 50px 36px 60px;
-  border-right: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  position: relative;
-  transition: background 0.4s;
-  cursor: default;
-}
-.practice:last-child { border-right: none; }
-.practice:hover { background: var(--ink-2); }
-.practice:hover .practice-icon { color: var(--accent); }
-
-.practice-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: var(--paper-faint);
-  text-transform: uppercase;
-  margin-bottom: 80px;
-}
-
-.practice-icon {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 48px;
-  font-weight: 300;
-  line-height: 1;
-  color: var(--paper-dim);
-  margin-bottom: 30px;
-  transition: color 0.4s;
-}
-
-.practice h3 {
-  font-family: 'Fraunces', serif;
-  font-weight: 350;
-  font-size: 30px;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-  font-variation-settings: "SOFT" 50, "opsz" 100;
-}
-.practice h3 em {
-  font-style: italic;
-  color: var(--accent);
-  font-variation-settings: "SOFT" 100, "WONK" 1;
-}
-
-.practice p {
-  font-size: 16px;
-  color: var(--paper-dim);
-  line-height: 1.55;
-  margin-bottom: 28px;
-  max-width: 32ch;
-}
-
-.practice-list {
-  list-style: none;
-  border-top: 1px solid var(--rule);
-  padding-top: 18px;
-}
-.practice-list li {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: var(--paper-dim);
-  text-transform: uppercase;
-  padding: 6px 0;
-  display: flex;
-  gap: 10px;
-}
-.practice-list li::before {
-  content: '→';
-  color: var(--accent);
-}
-
-/* ───────── METHODOLOGY ───────── */
-.method-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-
-.method-step {
-  padding: 50px 30px;
-  border-right: 1px solid var(--rule);
-  position: relative;
-}
-.method-step:last-child { border-right: none; }
-
-.method-step .step-num {
-  font-family: 'Fraunces', serif;
-  font-weight: 200;
-  font-size: 96px;
-  line-height: 0.85;
-  color: var(--accent);
-  font-variation-settings: "opsz" 144, "SOFT" 100;
-  margin-bottom: 30px;
-  display: block;
-}
-
-.method-step h4 {
-  font-family: 'Fraunces', serif;
-  font-weight: 400;
-  font-size: 22px;
-  letter-spacing: -0.015em;
-  margin-bottom: 14px;
-}
-
-.method-step p {
-  font-size: 15px;
-  color: var(--paper-dim);
-  line-height: 1.55;
-}
-
-/* ───────── DOSSIER / RESEARCH ───────── */
-.dossier {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border-top: 1px solid var(--rule);
-}
-
-.case {
-  padding: 40px;
-  border-right: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  min-height: 320px;
-  position: relative;
-  transition: background 0.3s;
-}
-.case:nth-child(2n) { border-right: none; }
-.case:hover { background: var(--ink-2); }
-.case:hover .case-arrow { transform: translate(6px, -6px); color: var(--accent); }
-
-.case-stamp {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--paper-faint);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.case-stamp .badge {
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  padding: 3px 8px;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-}
-
-.case h4 {
-  font-family: 'Fraunces', serif;
-  font-weight: 400;
-  font-size: 28px;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  font-variation-settings: "SOFT" 40, "opsz" 100;
-}
-.case h4 em {
-  font-style: italic;
-  color: var(--accent);
-  font-variation-settings: "WONK" 1, "SOFT" 100;
-}
-
-.case p {
-  font-size: 15px;
-  color: var(--paper-dim);
-  line-height: 1.55;
-  flex-grow: 1;
-}
-
-.case-foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--paper-dim);
-  border-top: 1px solid var(--rule);
-  padding-top: 18px;
-}
-
-.case-arrow {
-  font-size: 18px;
-  transition: all 0.3s;
-  display: inline-block;
-}
-
-/* ───────── MANIFESTO ───────── */
-.manifesto {
-  padding: 160px 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-  border-top: 1px solid var(--rule);
-}
-
-.manifesto-quote {
-  font-family: 'Fraunces', serif;
-  font-weight: 300;
-  font-size: clamp(28px, 3.4vw, 48px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  font-variation-settings: "SOFT" 60, "opsz" 144;
-}
-.manifesto-quote em {
-  font-style: italic;
-  color: var(--accent);
-  font-variation-settings: "WONK" 1, "SOFT" 100, "opsz" 144;
-}
-
-.manifesto-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  font-size: 16px;
-  line-height: 1.65;
-  color: var(--paper-dim);
-  border-left: 1px solid var(--rule);
-  padding-left: 40px;
-}
-
-.manifesto-aside .signature {
-  font-family: 'Fraunces', serif;
-  font-style: italic;
-  font-weight: 300;
-  font-size: 22px;
-  color: var(--paper);
-  font-variation-settings: "WONK" 1;
-  margin-top: 16px;
-}
-
-/* ───────── METRICS ───────── */
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-
-.metric {
-  padding: 50px 30px;
-  border-right: 1px solid var(--rule);
-}
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--ink-2); position: relative; z-index: 1; }
+.metric { padding: 44px 30px; border-right: 1px solid var(--rule); }
 .metric:last-child { border-right: none; }
+.metric .num { font-family: 'Fraunces', serif; font-weight: 200; font-size: 64px; line-height: 1; letter-spacing: -0.04em; font-variation-settings: "opsz" 144, "SOFT" 80; margin-bottom: 12px; }
+.metric .num em { font-style: italic; color: var(--accent); font-variation-settings: "WONK" 1, "SOFT" 100; }
+.metric .label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper-faint); }
 
-.metric .num {
-  font-family: 'Fraunces', serif;
-  font-weight: 200;
-  font-size: 76px;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  font-variation-settings: "opsz" 144, "SOFT" 80;
-  margin-bottom: 14px;
-}
-.metric .num em {
-  font-style: italic;
-  color: var(--accent);
-  font-variation-settings: "WONK" 1, "SOFT" 100;
-}
+section { padding: 120px 40px; position: relative; z-index: 1; }
+.section-head { display: grid; grid-template-columns: 220px 1fr; gap: 60px; align-items: baseline; margin-bottom: 70px; border-top: 1px solid var(--rule); padding-top: 36px; }
+.section-head .meta { display: flex; flex-direction: column; gap: 12px; }
+.section-head .description { max-width: 50ch; color: var(--paper-dim); font-size: 18px; margin-top: 18px; line-height: 1.55; }
 
-.metric .label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--paper-faint);
-}
+.services { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--rule); }
+.service { padding: 40px 32px 44px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); position: relative; transition: background 0.4s; display: flex; flex-direction: column; }
+.service:nth-child(3n) { border-right: none; }
+.service:hover { background: var(--ink-2); }
+.service:hover .service-arrow { color: var(--accent); transform: translate(4px, -4px); }
+.service-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: var(--paper-faint); text-transform: uppercase; margin-bottom: 60px; display: flex; justify-content: space-between; align-items: center; }
+.service-num .glyph { font-size: 22px; color: var(--paper-dim); line-height: 1; }
+.service h3 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; line-height: 1.1; letter-spacing: -0.018em; margin-bottom: 14px; font-variation-settings: "SOFT" 40, "opsz" 100; }
+.service h3 em { font-style: italic; color: var(--accent); font-variation-settings: "WONK" 1, "SOFT" 100; }
+.service p { font-size: 15px; color: var(--paper-dim); line-height: 1.55; margin-bottom: 26px; flex-grow: 1; }
+.service-list { list-style: none; border-top: 1px solid var(--rule); padding-top: 16px; margin-bottom: 24px; }
+.service-list li { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--paper-dim); text-transform: uppercase; padding: 5px 0; display: flex; gap: 10px; }
+.service-list li::before { content: '→'; color: var(--accent); }
+.service-foot { display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper); }
+.service-arrow { transition: all 0.3s; font-size: 16px; color: var(--paper-dim); }
 
-/* ───────── CTA ───────── */
-.cta {
-  padding: 180px 40px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
+.industries { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.industry { padding: 36px 24px 30px; border-right: 1px solid var(--rule); position: relative; transition: background 0.3s; cursor: default; }
+.industry:last-child { border-right: none; }
+.industry:hover { background: var(--ink-2); }
+.industry .ind-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; color: var(--paper-faint); margin-bottom: 30px; }
+.industry .ind-glyph { font-family: 'Fraunces', serif; font-weight: 200; font-size: 40px; color: var(--paper-dim); margin-bottom: 18px; line-height: 1; font-variation-settings: "WONK" 1, "SOFT" 100; }
+.industry h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px; letter-spacing: -0.015em; margin-bottom: 8px; }
+.industry p { font-size: 13px; color: var(--paper-dim); line-height: 1.45; }
 
-.cta-overline {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.24em;
-  color: var(--accent);
-  text-transform: uppercase;
-  margin-bottom: 30px;
-}
+.why { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--rule); }
+.why-points { display: flex; flex-direction: column; }
+.why-point { padding: 36px 40px; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 60px 1fr; gap: 24px; align-items: start; }
+.why-point:last-child { border-bottom: none; }
+.why-point .num { font-family: 'Fraunces', serif; font-weight: 200; font-size: 32px; font-style: italic; color: var(--accent); line-height: 1; font-variation-settings: "WONK" 1, "opsz" 100; }
+.why-point h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 22px; letter-spacing: -0.015em; margin-bottom: 10px; }
+.why-point p { font-size: 15px; color: var(--paper-dim); line-height: 1.55; }
+.why-aside { background: var(--ink-2); padding: 60px 40px; display: flex; flex-direction: column; justify-content: center; border-left: 1px solid var(--rule); }
+.why-aside .pull { font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(24px, 2.4vw, 34px); line-height: 1.25; letter-spacing: -0.015em; margin-bottom: 30px; font-variation-settings: "SOFT" 50, "opsz" 100; }
+.why-aside .pull em { font-style: italic; color: var(--accent); font-variation-settings: "WONK" 1, "SOFT" 100; }
+.why-aside .signature { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper-faint); border-top: 1px solid var(--rule); padding-top: 18px; }
 
-.cta h2 {
-  font-family: 'Fraunces', serif;
-  font-weight: 300;
-  font-size: clamp(48px, 8vw, 130px);
-  line-height: 0.92;
-  letter-spacing: -0.035em;
-  margin-bottom: 50px;
-  font-variation-settings: "SOFT" 40, "opsz" 144;
-}
-.cta h2 em {
-  font-style: italic;
-  color: var(--accent);
-  font-variation-settings: "WONK" 1, "SOFT" 100, "opsz" 144;
-}
+.case-study { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 1fr 1.2fr; background: var(--ink-2); }
+.case-meta { padding: 60px 40px; border-right: 1px solid var(--rule); display: flex; flex-direction: column; gap: 24px; justify-content: space-between; }
+.case-tags { display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+.case-tag { border: 1px solid var(--rule-light); padding: 5px 10px; color: var(--paper-dim); }
+.case-tag.featured { border-color: var(--accent); color: var(--accent); }
+.case-result { font-family: 'Fraunces', serif; font-weight: 200; font-size: 80px; line-height: 0.9; color: var(--accent); letter-spacing: -0.04em; font-variation-settings: "WONK" 1, "SOFT" 100, "opsz" 144; }
+.case-result-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: var(--paper-faint); text-transform: uppercase; margin-top: 10px; }
+.case-body { padding: 60px 40px; display: flex; flex-direction: column; gap: 22px; }
+.case-body .stamp { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: var(--paper-faint); text-transform: uppercase; }
+.case-body p { font-size: 16px; color: var(--paper-dim); line-height: 1.6; }
+.case-quote { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: 22px; line-height: 1.35; color: var(--paper); border-left: 2px solid var(--accent); padding-left: 22px; font-variation-settings: "WONK" 1, "SOFT" 100, "opsz" 100; }
+.case-attribution { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: var(--paper-faint); text-transform: uppercase; display: flex; flex-direction: column; gap: 4px; }
+.case-attribution .name { color: var(--paper); }
 
-.cta-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  padding: 22px 36px;
-  background: var(--accent);
-  color: var(--ink);
-  font-weight: 600;
-  transition: all 0.3s;
-}
-.cta-btn:hover {
-  background: var(--paper);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(224, 122, 60, 0.25);
-}
+.frameworks-band { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 40px 40px; display: flex; align-items: center; gap: 60px; overflow: hidden; background: var(--ink); }
+.frameworks-band .label { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-faint); white-space: nowrap; flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
+.frameworks-band .label .accent { color: var(--accent); }
+.frameworks { display: flex; gap: 50px; font-family: 'Fraunces', serif; font-weight: 300; font-size: 26px; letter-spacing: -0.01em; color: var(--paper-dim); white-space: nowrap; font-variation-settings: "SOFT" 40, "opsz" 100; flex-wrap: wrap; }
+.frameworks span { transition: color 0.3s; cursor: default; }
+.frameworks span:hover { color: var(--accent); font-style: italic; font-variation-settings: "WONK" 1, "SOFT" 100; }
 
-/* ───────── FOOTER ───────── */
-footer {
-  border-top: 1px solid var(--rule);
-  padding: 60px 40px 40px;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 60px;
-  font-size: 14px;
-}
+.insights { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--rule); }
+.insight { padding: 36px 40px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); display: flex; flex-direction: column; gap: 18px; min-height: 280px; transition: background 0.3s; }
+.insight:nth-child(2n) { border-right: none; }
+.insight:hover { background: var(--ink-2); }
+.insight:hover .insight-arrow { transform: translate(6px, -6px); color: var(--accent); }
+.insight-stamp { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--paper-faint); display: flex; justify-content: space-between; }
+.insight-stamp .badge { border: 1px solid var(--rule-light); padding: 3px 8px; font-size: 9px; letter-spacing: 0.18em; }
+.insight-stamp .type { color: var(--accent); }
+.insight h4 { font-family: 'Fraunces', serif; font-weight: 400; font-size: 24px; line-height: 1.18; letter-spacing: -0.018em; font-variation-settings: "SOFT" 40, "opsz" 100; }
+.insight h4 em { font-style: italic; color: var(--accent); font-variation-settings: "WONK" 1, "SOFT" 100; }
+.insight p { font-size: 14px; color: var(--paper-dim); line-height: 1.55; flex-grow: 1; }
+.insight-foot { display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-dim); border-top: 1px solid var(--rule); padding-top: 16px; }
+.insight-arrow { transition: all 0.3s; font-size: 16px; }
 
-.foot-brand {
-  font-family: 'Fraunces', serif;
-  font-weight: 400;
-  font-size: 28px;
-  letter-spacing: -0.02em;
-  font-variation-settings: "SOFT" 50, "WONK" 1;
-  margin-bottom: 16px;
-}
+.contact-section { padding: 120px 40px; border-top: 1px solid var(--rule); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; max-width: 1400px; margin: 0 auto; }
+.contact-intro h2 { margin-bottom: 24px; }
+.contact-intro p { font-size: 17px; color: var(--paper-dim); line-height: 1.6; margin-bottom: 32px; max-width: 44ch; }
+.contact-channels { border-top: 1px solid var(--rule); padding-top: 24px; display: flex; flex-direction: column; gap: 16px; }
+.channel { display: grid; grid-template-columns: 110px 1fr; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em; }
+.channel .ch-label { text-transform: uppercase; letter-spacing: 0.16em; color: var(--paper-faint); font-size: 11px; }
+.channel a, .channel span { color: var(--paper); }
+.channel a:hover { color: var(--accent); }
+.contact-form { background: var(--ink-2); border: 1px solid var(--rule); padding: 40px; display: flex; flex-direction: column; gap: 22px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-faint); }
+.field label .required { color: var(--accent); }
+.field input, .field select, .field textarea { background: transparent; border: none; border-bottom: 1px solid var(--rule-light); padding: 10px 0; color: var(--paper); font-family: 'Newsreader', serif; font-size: 16px; font-weight: 400; outline: none; transition: border-color 0.2s; border-radius: 0; }
+.field input:focus, .field select:focus, .field textarea:focus { border-bottom-color: var(--accent); }
+.field select option { background: var(--ink); color: var(--paper); }
+.field textarea { resize: vertical; min-height: 90px; font-family: 'Newsreader', serif; }
+.field-checkbox { display: flex; align-items: flex-start; gap: 12px; font-size: 13px; color: var(--paper-dim); font-family: 'Newsreader', serif; line-height: 1.4; }
+.field-checkbox input { margin-top: 4px; accent-color: var(--accent); }
+.form-submit { border: none; margin-top: 6px; width: fit-content; cursor: pointer; }
 
-.foot-brand-tag {
-  font-family: 'Newsreader', serif;
-  font-style: italic;
-  font-size: 16px;
-  color: var(--paper-dim);
-  max-width: 36ch;
-  font-weight: 300;
-}
-
-.foot-col h5 {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--paper-faint);
-  margin-bottom: 18px;
-}
-
-.foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-.foot-col a {
-  color: var(--paper-dim);
-  font-size: 15px;
-  transition: color 0.2s;
-}
+footer { border-top: 1px solid var(--rule); padding: 60px 40px 30px; background: var(--ink-2); }
+.foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+.foot-brand { font-family: 'Fraunces', serif; font-weight: 400; font-size: 26px; letter-spacing: -0.02em; font-variation-settings: "SOFT" 50, "WONK" 1; margin-bottom: 14px; }
+.foot-brand-tag { font-family: 'Newsreader', serif; font-style: italic; font-size: 15px; color: var(--paper-dim); max-width: 32ch; font-weight: 300; margin-bottom: 24px; }
+.foot-social { display: flex; gap: 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+.foot-social a { color: var(--paper-dim); border-bottom: 1px solid var(--rule-light); padding-bottom: 4px; transition: all 0.2s; }
+.foot-social a:hover { color: var(--accent); border-color: var(--accent); }
+.foot-col h5 { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper-faint); margin-bottom: 18px; }
+.foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.foot-col a { color: var(--paper-dim); font-size: 14px; transition: color 0.2s; }
 .foot-col a:hover { color: var(--accent); }
+.foot-bar { border-top: 1px solid var(--rule); padding-top: 22px; display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--paper-faint); flex-wrap: wrap; gap: 12px; }
+.foot-bar a { color: var(--paper-faint); }
+.foot-bar a:hover { color: var(--paper-dim); }
+.foot-bar .legal-links { display: flex; gap: 24px; flex-wrap: wrap; }
 
-.foot-bar {
-  grid-column: 1 / -1;
-  border-top: 1px solid var(--rule);
-  padding-top: 30px;
-  margin-top: 30px;
-  display: flex;
-  justify-content: space-between;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--paper-faint);
-}
+[data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1); }
+[data-reveal].in { opacity: 1; transform: translateY(0); }
 
-/* ───────── ANIMATIONS ───────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: reveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+@media (max-width: 1100px) {
+  .services { grid-template-columns: repeat(2, 1fr); }
+  .service:nth-child(3n) { border-right: 1px solid var(--rule); }
+  .service:nth-child(2n) { border-right: none; }
+  .industries { grid-template-columns: repeat(3, 1fr); }
+  .industry:nth-child(5) { border-right: none; }
+  .industry:nth-child(3n) { border-right: none; }
+  .insights { grid-template-columns: 1fr; }
+  .insight { border-right: none !important; }
+  .case-study { grid-template-columns: 1fr; }
+  .case-meta { border-right: none; border-bottom: 1px solid var(--rule); }
+  .why { grid-template-columns: 1fr; }
+  .why-aside { border-left: none; border-top: 1px solid var(--rule); }
+  .foot-grid { grid-template-columns: 1fr 1fr 1fr; }
 }
-.reveal:nth-child(1) { animation-delay: 0.05s; }
-.reveal:nth-child(2) { animation-delay: 0.18s; }
-.reveal:nth-child(3) { animation-delay: 0.32s; }
-.reveal:nth-child(4) { animation-delay: 0.46s; }
-@keyframes reveal {
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ───────── RESPONSIVE ───────── */
-@media (max-width: 960px) {
-  nav { padding: 18px 20px; }
+@media (max-width: 760px) {
+  nav { padding: 16px 20px; }
   .nav-links { display: none; }
-  section { padding: 80px 20px; }
+  section, .contact-section { padding: 80px 20px; }
   .hero { padding: 110px 20px 60px; }
   .corner-tl, .corner-tr { display: none; }
-  .hero-tag { grid-template-columns: 1fr; gap: 30px; }
-  .hero-tag .cta-stack { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
-  .section-head { grid-template-columns: 1fr; gap: 20px; }
-  .practices { grid-template-columns: 1fr; }
-  .practice { border-right: none; }
-  .method-grid { grid-template-columns: 1fr 1fr; }
-  .method-step { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-  .method-step:nth-child(2n) { border-right: none; }
-  .dossier { grid-template-columns: 1fr; }
-  .case { border-right: none !important; }
-  .manifesto { grid-template-columns: 1fr; gap: 40px; padding: 100px 20px; }
-  .manifesto-aside { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 30px; }
+  .hero-tag { grid-template-columns: 1fr; gap: 24px; }
+  .hero-tag .cta-stack { flex-direction: row; flex-wrap: wrap; }
+  .section-head { grid-template-columns: 1fr; gap: 18px; }
   .metrics { grid-template-columns: 1fr 1fr; }
   .metric:nth-child(2) { border-right: none; }
   .metric:nth-child(1), .metric:nth-child(2) { border-bottom: 1px solid var(--rule); }
-  footer { grid-template-columns: 1fr 1fr; }
-  .foot-bar { flex-direction: column; gap: 10px; }
+  .services { grid-template-columns: 1fr; }
+  .service { border-right: none !important; }
+  .industries { grid-template-columns: 1fr 1fr; }
+  .industry { border-right: 1px solid var(--rule) !important; border-bottom: 1px solid var(--rule); }
+  .industry:nth-child(2n) { border-right: none !important; }
+  .frameworks-band { flex-direction: column; align-items: flex-start; gap: 20px; padding: 30px 20px; }
+  .frameworks { font-size: 20px; gap: 30px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 50px; }
+  .contact-form { padding: 30px 24px; }
+  .form-row { grid-template-columns: 1fr; gap: 18px; }
+  .foot-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .foot-bar { flex-direction: column; }
 }
 </style>
 </head>
 <body>
 
-<!-- ───────── NAV ───────── -->
 <nav>
   <a href="#" class="logo">
     <span class="logo-mark">N</span>
-    Net<span class="logo-italic">vestigate</span>
+    <span>Net<span class="logo-italic">vestigate</span></span>
   </a>
   <div class="nav-links">
-    <a href="#practice">Practice</a>
-    <a href="#approach">Approach</a>
-    <a href="#research">Research</a>
+    <a href="#services">Services</a>
+    <a href="#industries">Industries</a>
+    <a href="#why">Why Us</a>
+    <a href="#insights">Insights</a>
     <a href="#contact">Contact</a>
   </div>
-  <a href="#contact" class="nav-cta">Engage →</a>
+  <a href="#contact" class="nav-cta">Talk to an analyst →</a>
 </nav>
 
-<!-- ───────── HERO ───────── -->
 <section class="hero">
   <div class="corner-mark corner-tl">FILE&nbsp;&nbsp;NV-2026-Q2</div>
-  <div class="corner-mark corner-tr">42.3601°&nbsp;N&nbsp;/&nbsp;71.0589°&nbsp;W</div>
+  <div class="corner-mark corner-tr">CYBERSECURITY&nbsp;RESEARCH&nbsp;&amp;&nbsp;ADVISORY</div>
 
-  <div class="hero-meta reveal">
+  <div class="hero-meta" data-reveal>
     <span class="dot"></span>
-    <span>Cybersecurity Research &amp; Consulting</span>
-    <span style="color: var(--rule);">|</span>
-    <span>Est. 2018</span>
-    <span style="color: var(--rule);">|</span>
-    <span class="classified">Vetted Engagements Only</span>
+    <span>Independent · Research-led</span>
+    <span class="sep">|</span>
+    <span>Established 2018</span>
+    <span class="sep">|</span>
+    <span>U.S. + Global Engagements</span>
   </div>
 
-  <h1 class="reveal">
-    <span class="line">We don't&nbsp;<span class="accent">guess</span>.</span>
-    <span class="line"><span class="quiet">We</span>&nbsp;investigate.</span>
-  </h1>
+  <div class="hero-rotator" data-reveal>
+    <div class="slide">
+      <h1 class="h1">
+        Threat-informed<br>
+        <em>security advisory</em>,<br>
+        delivered like research.
+      </h1>
+    </div>
+    <div class="slide">
+      <h1 class="h1">
+        We don't <em>guess</em>.<br>
+        We investigate.
+      </h1>
+    </div>
+    <div class="slide">
+      <h1 class="h1">
+        Clear guidance for<br>
+        <em>complex</em> environments<br>
+        and high-stakes decisions.
+      </h1>
+    </div>
+  </div>
 
-  <div class="hero-tag reveal">
+  <div class="hero-tag" data-reveal>
     <div class="label">— Mandate</div>
     <p class="description">
-      Netvestigate is a cybersecurity research and consulting firm built on the conviction that <em>most security advice is folklore</em>. We combine first-principles threat research with operator-grade consulting to give organizations evidence — not opinions — about what is actually attacking them, and what to do about it.
+      Netvestigate is a research-led cybersecurity advisory firm. We help technology, financial, and healthcare organizations make informed decisions about how their systems are <em>structured</em>, <em>secured</em>, and <em>defended</em> — grounded in original research and real adversary behavior.
     </p>
     <div class="cta-stack">
-      <a href="#contact" class="btn-primary">Brief us → </a>
-      <a href="#research" class="btn-ghost">Read research</a>
+      <a href="#contact" class="btn btn-primary">Talk to an analyst →</a>
+      <a href="#services" class="btn btn-ghost">Explore services</a>
     </div>
   </div>
 </section>
 
-<!-- ───────── METRICS ───────── -->
-<div class="metrics">
-  <div class="metric">
-    <div class="num">07</div>
-    <div class="label">Years of Practice</div>
-  </div>
-  <div class="metric">
-    <div class="num"><em>140+</em></div>
-    <div class="label">Engagements Delivered</div>
-  </div>
-  <div class="metric">
-    <div class="num">23</div>
-    <div class="label">CVEs Disclosed</div>
-  </div>
-  <div class="metric">
-    <div class="num"><em>0</em></div>
-    <div class="label">Recycled Templates</div>
-  </div>
+<div class="metrics" data-reveal>
+  <div class="metric"><div class="num">07<em>+</em></div><div class="label">Years of Practice</div></div>
+  <div class="metric"><div class="num"><em>140</em></div><div class="label">Engagements Delivered</div></div>
+  <div class="metric"><div class="num">23</div><div class="label">CVEs Disclosed</div></div>
+  <div class="metric"><div class="num"><em>9</em></div><div class="label">Frameworks Supported</div></div>
 </div>
 
-<!-- ───────── PRACTICES ───────── -->
-<section id="practice">
-  <div class="section-head">
-    <div class="section-num"><span>SECTION</span> 01 / Practice</div>
-    <h2 class="section-title">Three lines of work,<br><em>one</em> investigative method.</h2>
+<section id="services">
+  <div class="section-head" data-reveal>
+    <div class="meta">
+      <span class="eyebrow"><span class="num">01 /</span> Services</span>
+      <span class="eyebrow" style="color: var(--paper-faint);">Six practices</span>
+    </div>
+    <div>
+      <h2 class="h2">Specialized practices,<br><em>one</em> investigative method.</h2>
+      <p class="description">Our work spans research, architecture, and operations. Every engagement begins with the same first principle: understand what is actually attacking the client, then decide what is worth doing about it.</p>
+    </div>
   </div>
 
-  <div class="practices">
-    <article class="practice">
-      <div class="practice-tag">— P.01</div>
-      <div class="practice-icon">{ ⚑ }</div>
+  <div class="services" data-reveal>
+    <article class="service">
+      <div class="service-num"><span>S.01</span><span class="glyph">⚑</span></div>
       <h3>Threat <em>Research</em></h3>
-      <p>Original research into the vulnerabilities, malware, and adversary techniques that matter to your environment — not the ones generating the most headlines.</p>
-      <ul class="practice-list">
+      <p>Original research into the vulnerabilities, malware, and adversary techniques relevant to your environment. Includes responsible disclosure and publishable advisories.</p>
+      <ul class="service-list">
         <li>Vulnerability discovery</li>
         <li>Malware reverse engineering</li>
         <li>Threat actor profiling</li>
         <li>Public &amp; private advisories</li>
       </ul>
+      <div class="service-foot"><span>Engage research</span><span class="service-arrow">↗</span></div>
     </article>
 
-    <article class="practice">
-      <div class="practice-tag">— P.02</div>
-      <div class="practice-icon">{ ◊ }</div>
-      <h3>Security <em>Consulting</em></h3>
-      <p>Architectural and program-level advisory for security teams that have outgrown checklists and need someone willing to disagree with them in writing.</p>
-      <ul class="practice-list">
-        <li>Security architecture review</li>
-        <li>Detection engineering</li>
-        <li>Cloud &amp; identity hardening</li>
-        <li>Board &amp; executive briefings</li>
+    <article class="service">
+      <div class="service-num"><span>S.02</span><span class="glyph">◊</span></div>
+      <h3>Security <em>Architecture</em></h3>
+      <p>Architectural review and advisory for cloud, identity, and platform engineering teams. Designed for organizations that have outgrown checklist-driven security.</p>
+      <ul class="service-list">
+        <li>Cloud architecture review</li>
+        <li>Identity &amp; access design</li>
+        <li>Zero trust roadmaps</li>
+        <li>Secure SDLC integration</li>
       </ul>
+      <div class="service-foot"><span>Engage advisory</span><span class="service-arrow">↗</span></div>
     </article>
 
-    <article class="practice">
-      <div class="practice-tag">— P.03</div>
-      <div class="practice-icon">{ ⌖ }</div>
+    <article class="service">
+      <div class="service-num"><span>S.03</span><span class="glyph">⌖</span></div>
       <h3>Adversary <em>Simulation</em></h3>
-      <p>Targeted, intelligence-led red team and purple team operations modeled on the threat actors most likely to actually find you interesting.</p>
-      <ul class="practice-list">
+      <p>Intelligence-led red team and purple team operations modeled on the threat actors most likely to target your sector — followed by enablement, not invoices.</p>
+      <ul class="service-list">
         <li>Red team operations</li>
         <li>Purple team engineering</li>
         <li>Tabletop &amp; crisis exercises</li>
-        <li>Post-engagement enablement</li>
+        <li>Detection co-development</li>
       </ul>
+      <div class="service-foot"><span>Engage offensive</span><span class="service-arrow">↗</span></div>
+    </article>
+
+    <article class="service">
+      <div class="service-num"><span>S.04</span><span class="glyph">⟁</span></div>
+      <h3>Detection <em>Engineering</em></h3>
+      <p>Detection program design and tuning for SIEM, EDR, and cloud-native security platforms. We help SOC and detection teams replace volume with visibility.</p>
+      <ul class="service-list">
+        <li>Detection content development</li>
+        <li>SIEM &amp; data pipeline tuning</li>
+        <li>MITRE ATT&amp;CK coverage mapping</li>
+        <li>SOC maturity assessment</li>
+      </ul>
+      <div class="service-foot"><span>Engage detection</span><span class="service-arrow">↗</span></div>
+    </article>
+
+    <article class="service">
+      <div class="service-num"><span>S.05</span><span class="glyph">⚯</span></div>
+      <h3>Incident <em>Response</em></h3>
+      <p>Pre-incident retainers and on-call response for active intrusions. Forensic rigor with documentation that holds up in postmortems, audits, and regulator briefings.</p>
+      <ul class="service-list">
+        <li>IR retainers &amp; readiness</li>
+        <li>Active incident response</li>
+        <li>Forensic analysis</li>
+        <li>Post-incident hardening</li>
+      </ul>
+      <div class="service-foot"><span>Engage response</span><span class="service-arrow">↗</span></div>
+    </article>
+
+    <article class="service">
+      <div class="service-num"><span>S.06</span><span class="glyph">⌬</span></div>
+      <h3>Executive <em>Advisory</em></h3>
+      <p>Confidential advisory for security leaders, founders, and boards navigating strategic decisions: vendor selection, M&amp;A diligence, regulatory exposure, and program scaling.</p>
+      <ul class="service-list">
+        <li>vCISO engagements</li>
+        <li>Board &amp; audit committee briefings</li>
+        <li>M&amp;A security diligence</li>
+        <li>Vendor selection &amp; review</li>
+      </ul>
+      <div class="service-foot"><span>Engage advisory</span><span class="service-arrow">↗</span></div>
     </article>
   </div>
 </section>
 
-<!-- ───────── APPROACH ───────── -->
-<section id="approach">
-  <div class="section-head">
-    <div class="section-num"><span>SECTION</span> 02 / Approach</div>
-    <h2 class="section-title">The <em>method</em> behind every engagement.</h2>
+<section id="industries" style="padding-top: 60px;">
+  <div class="section-head" data-reveal>
+    <div class="meta">
+      <span class="eyebrow"><span class="num">02 /</span> Industries</span>
+      <span class="eyebrow" style="color: var(--paper-faint);">Sector specialization</span>
+    </div>
+    <div>
+      <h2 class="h2">Working knowledge of the <em>environments</em> we serve.</h2>
+      <p class="description">Threat models differ by sector. Our engagements concentrate in industries where regulatory, reputational, and operational stakes are high enough to require evidence-based decisions.</p>
+    </div>
   </div>
 
-  <div class="method-grid">
-    <div class="method-step">
-      <span class="step-num">i.</span>
-      <h4>Intake</h4>
-      <p>We start where most firms hand you a statement of work — by reading the room. Engagements begin with a private intake to understand what you actually fear, not what your last vendor sold you.</p>
+  <div class="industries" data-reveal>
+    <div class="industry">
+      <div class="ind-num">— I.01</div>
+      <div class="ind-glyph">§</div>
+      <h4>Financial Services</h4>
+      <p>Banks, fintech platforms, and asset managers. Regulatory-aware, fraud-aware.</p>
     </div>
-    <div class="method-step">
-      <span class="step-num">ii.</span>
-      <h4>Reconnaissance</h4>
-      <p>External and internal reconnaissance grounded in your real attack surface, your real adversaries, and your real internal politics. Documented like evidence, not marketing.</p>
+    <div class="industry">
+      <div class="ind-num">— I.02</div>
+      <div class="ind-glyph">+</div>
+      <h4>Healthcare &amp; Life Sciences</h4>
+      <p>HIPAA, HITRUST, and clinical-system risk. Connected medical device research.</p>
     </div>
-    <div class="method-step">
-      <span class="step-num">iii.</span>
-      <h4>Analysis</h4>
-      <p>Findings are weighed against current literature, our own corpus, and the operator reality of your team. We rank by exploitability and consequence — not severity scores.</p>
+    <div class="industry">
+      <div class="ind-num">— I.03</div>
+      <div class="ind-glyph">⌘</div>
+      <h4>Technology &amp; SaaS</h4>
+      <p>Multi-tenant architecture, supply-chain risk, secure product engineering.</p>
     </div>
-    <div class="method-step">
-      <span class="step-num">iv.</span>
-      <h4>Brief</h4>
-      <p>You receive a written brief that survives a hostile reader. Engineers get the technical record; leadership gets the decision. Both versions agree.</p>
+    <div class="industry">
+      <div class="ind-num">— I.04</div>
+      <div class="ind-glyph">★</div>
+      <h4>Federal &amp; Public Sector</h4>
+      <p>FedRAMP, FISMA, and CMMC-adjacent advisory. Cleared resources available.</p>
+    </div>
+    <div class="industry">
+      <div class="ind-num">— I.05</div>
+      <div class="ind-glyph">◈</div>
+      <h4>Critical Infrastructure</h4>
+      <p>OT/ICS environments, energy, transportation. Joint IT/OT threat modeling.</p>
     </div>
   </div>
 </section>
 
-<!-- ───────── DOSSIER / RESEARCH ───────── -->
-<section id="research">
-  <div class="section-head">
-    <div class="section-num"><span>SECTION</span> 03 / Selected Dossiers</div>
-    <h2 class="section-title">Recent <em>research</em> &amp; field notes.</h2>
+<section id="why" style="padding: 100px 40px;">
+  <div class="section-head" data-reveal>
+    <div class="meta">
+      <span class="eyebrow"><span class="num">03 /</span> Why Netvestigate</span>
+      <span class="eyebrow" style="color: var(--paper-faint);">Differentiation</span>
+    </div>
+    <div>
+      <h2 class="h2">Built for clients who can <em>read</em> the report.</h2>
+      <p class="description">Most cybersecurity consulting is built for procurement. Ours is built for the engineers, operators, and executives who actually have to act on it.</p>
+    </div>
   </div>
 
-  <div class="dossier">
-    <article class="case">
-      <div class="case-stamp">
-        <span>Dossier No. 0041 / Vulnerability Research</span>
-        <span class="badge">Public</span>
+  <div class="why" data-reveal>
+    <div class="why-points">
+      <div class="why-point">
+        <div class="num">i.</div>
+        <div>
+          <h4>Research-led</h4>
+          <p>Every practice is staffed by researchers, not generalist consultants. Our advisory is grounded in primary research — the kind that ships CVEs and conference talks, not just citations.</p>
+        </div>
       </div>
+      <div class="why-point">
+        <div class="num">ii.</div>
+        <div>
+          <h4>Operator-grade</h4>
+          <p>Our team has run security at scale. Recommendations come from people who have owned the pager, not from a methodology deck. Engineers can defend our findings; executives can act on them.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="num">iii.</div>
+        <div>
+          <h4>Independent</h4>
+          <p>We sell research, advisory, and judgment — never resold tooling. We have no vendor commissions and no preferred-partner kickbacks. Recommendations are evidence-driven and defensible.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="num">iv.</div>
+        <div>
+          <h4>Outcome-anchored</h4>
+          <p>Engagements end with measurable change — a fixed control, a tuned detection, a cleared finding, a ratified architecture. Documentation is a record, not a deliverable.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-aside">
+      <p class="pull">"The hardest part of security is not finding what is broken. It is convincing the people who can fix it that it <em>matters</em>, in language they can defend in a meeting they did not want to have."</p>
+      <div class="signature">— The Netvestigate practice</div>
+    </div>
+  </div>
+</section>
+
+<div class="frameworks-band" data-reveal>
+  <div class="label">
+    <span class="accent">— Methodologies aligned</span>
+    <span>Frameworks &amp; standards</span>
+  </div>
+  <div class="frameworks">
+    <span>NIST CSF</span>
+    <span>MITRE ATT&amp;CK</span>
+    <span>ISO 27001</span>
+    <span>SOC 2</span>
+    <span>FedRAMP</span>
+    <span>HIPAA</span>
+    <span>PCI DSS</span>
+    <span>CIS Controls</span>
+    <span>OWASP ASVS</span>
+  </div>
+</div>
+
+<section id="case-study" style="padding: 100px 40px 80px;">
+  <div class="section-head" data-reveal>
+    <div class="meta">
+      <span class="eyebrow"><span class="num">04 /</span> Client Story</span>
+      <span class="eyebrow" style="color: var(--paper-faint);">Selected engagement</span>
+    </div>
+    <div>
+      <h2 class="h2">When a fintech needed an answer, <em>not</em> a deliverable.</h2>
+    </div>
+  </div>
+
+  <div class="case-study" data-reveal>
+    <div class="case-meta">
+      <div>
+        <div class="case-tags">
+          <span class="case-tag featured">Featured</span>
+          <span class="case-tag">Financial Services</span>
+          <span class="case-tag">Detection Engineering</span>
+          <span class="case-tag">10 wk Engagement</span>
+        </div>
+      </div>
+      <div>
+        <div class="case-result"><em>74%</em></div>
+        <div class="case-result-label">Reduction in mean time to detect</div>
+      </div>
+    </div>
+
+    <div class="case-body">
+      <div class="stamp">Engagement No. NV-0118 / Fintech, North America</div>
+      <p>A mid-stage payments platform engaged Netvestigate after an internal review surfaced gaps between their detection program and the threats most likely to target their environment. The team was sophisticated, well-resourced, and skeptical of consultants — exactly the working relationship we want.</p>
+      <p>Over ten weeks, we mapped current detections against MITRE ATT&amp;CK techniques observed in their threat intelligence, co-developed new detection content with their SOC, and tuned existing rules that were generating noise without value. The brief was delivered to engineering leadership and the security committee.</p>
+      <div class="case-quote">"They gave us a report we could actually act on, and a SOC team that was better at its job after they left. That's not what we usually get from advisory engagements."</div>
+      <div class="case-attribution">
+        <span class="name">VP, Security Engineering</span>
+        <span>Payments platform · disclosed under NDA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="insights" style="padding: 80px 40px;">
+  <div class="section-head" data-reveal>
+    <div class="meta">
+      <span class="eyebrow"><span class="num">05 /</span> Insights</span>
+      <span class="eyebrow" style="color: var(--paper-faint);">Public dossiers</span>
+    </div>
+    <div>
+      <h2 class="h2">Research, briefs, and <em>field notes</em>.</h2>
+      <p class="description">A selection of public research and writing from the practice. Private engagements are not represented; case study material is published only with client consent.</p>
+    </div>
+  </div>
+
+  <div class="insights" data-reveal>
+    <article class="insight">
+      <div class="insight-stamp"><span><span class="type">White Paper</span> · No. 0041</span><span class="badge">Public</span></div>
       <h4>The trouble with <em>severity</em>: why CVSS keeps mispricing risk.</h4>
-      <p>A re-analysis of three years of disclosed vulnerabilities arguing that severity-driven prioritization systematically misallocates defensive effort, and what to use instead.</p>
-      <div class="case-foot">
-        <span>Read brief</span>
-        <span class="case-arrow">↗</span>
-      </div>
+      <p>A re-analysis of three years of disclosed vulnerabilities arguing severity-driven prioritization systematically misallocates defensive effort, and what to use instead.</p>
+      <div class="insight-foot"><span>Read brief</span><span class="insight-arrow">↗</span></div>
     </article>
 
-    <article class="case">
-      <div class="case-stamp">
-        <span>Dossier No. 0038 / Threat Intelligence</span>
-        <span class="badge">Public</span>
-      </div>
+    <article class="insight">
+      <div class="insight-stamp"><span><span class="type">Field Notes</span> · No. 0038</span><span class="badge">Public</span></div>
       <h4>Initial-access brokers and the <em>boring</em> economics of intrusion.</h4>
       <p>A six-month study of underground listings tracking how access is priced, what credentials are worth, and why most ransomware is downstream of unremarkable phishing.</p>
-      <div class="case-foot">
-        <span>Read brief</span>
-        <span class="case-arrow">↗</span>
-      </div>
+      <div class="insight-foot"><span>Read brief</span><span class="insight-arrow">↗</span></div>
     </article>
 
-    <article class="case">
-      <div class="case-stamp">
-        <span>Dossier No. 0033 / Cloud Security</span>
-        <span class="badge">Public</span>
-      </div>
+    <article class="insight">
+      <div class="insight-stamp"><span><span class="type">Research</span> · No. 0033</span><span class="badge">Public</span></div>
       <h4>IAM is a graph problem <em>masquerading</em> as a permissions problem.</h4>
       <p>Field notes from auditing identity in eleven mid-sized cloud estates. The dangerous paths are rarely the ones reviewed in change tickets.</p>
-      <div class="case-foot">
-        <span>Read brief</span>
-        <span class="case-arrow">↗</span>
-      </div>
+      <div class="insight-foot"><span>Read brief</span><span class="insight-arrow">↗</span></div>
     </article>
 
-    <article class="case">
-      <div class="case-stamp">
-        <span>Dossier No. 0029 / Detection Engineering</span>
-        <span class="badge">Public</span>
-      </div>
+    <article class="insight">
+      <div class="insight-stamp"><span><span class="type">Practitioner</span> · No. 0029</span><span class="badge">Public</span></div>
       <h4>Why your SIEM is loud <em>and</em> blind, and how to fix the second one first.</h4>
       <p>A practitioner's argument that detection programs collapse under their own volume long before they collapse under sophistication. Triage the visibility, then the noise.</p>
-      <div class="case-foot">
-        <span>Read brief</span>
-        <span class="case-arrow">↗</span>
-      </div>
+      <div class="insight-foot"><span>Read brief</span><span class="insight-arrow">↗</span></div>
     </article>
   </div>
 </section>
 
-<!-- ───────── MANIFESTO ───────── -->
-<section class="manifesto">
-  <div class="manifesto-quote">
-    “The hardest part of security is not finding what is broken. It is convincing the people who can fix it that it <em>matters</em>, in language they can defend in a meeting they did not want to have.”
+<section class="contact-section" id="contact">
+  <div class="contact-grid" data-reveal>
+    <div class="contact-intro">
+      <span class="eyebrow" style="margin-bottom: 18px; display: inline-block;"><span class="num">06 /</span> Contact</span>
+      <h2 class="h2">Let's discuss the <em>engagement</em>.</h2>
+      <p>Tell us what you're working on. We'll respond within two business days with whether we're a fit, what an engagement would look like, and a private call if it makes sense.</p>
+
+      <div class="contact-channels">
+        <div class="channel">
+          <span class="ch-label">General</span>
+          <a href="mailto:hello@netvestigate.com">hello@netvestigate.com</a>
+        </div>
+        <div class="channel">
+          <span class="ch-label">Secure Intake</span>
+          <a href="#">PGP &amp; Signal on request</a>
+        </div>
+        <div class="channel">
+          <span class="ch-label">Disclosure</span>
+          <a href="mailto:security@netvestigate.com">security@netvestigate.com</a>
+        </div>
+        <div class="channel">
+          <span class="ch-label">Press</span>
+          <a href="mailto:press@netvestigate.com">press@netvestigate.com</a>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Form not wired up yet — replace this onsubmit with your form provider (Formspree / Netlify Forms / Cloudflare Workers).');">
+      <div class="form-row">
+        <div class="field"><label>First Name <span class="required">*</span></label><input type="text" required></div>
+        <div class="field"><label>Last Name <span class="required">*</span></label><input type="text" required></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Business Email <span class="required">*</span></label><input type="email" required></div>
+        <div class="field"><label>Company <span class="required">*</span></label><input type="text" required></div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Industry</label>
+          <select>
+            <option>Select an industry</option>
+            <option>Financial Services</option>
+            <option>Healthcare &amp; Life Sciences</option>
+            <option>Technology &amp; SaaS</option>
+            <option>Federal &amp; Public Sector</option>
+            <option>Critical Infrastructure</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Engagement Interest</label>
+          <select>
+            <option>Select a service</option>
+            <option>Threat Research</option>
+            <option>Security Architecture</option>
+            <option>Adversary Simulation</option>
+            <option>Detection Engineering</option>
+            <option>Incident Response</option>
+            <option>Executive Advisory</option>
+            <option>Not yet sure</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Brief description <span class="required">*</span></label>
+        <textarea placeholder="A few sentences on what you're working on or what's prompted you to reach out." required></textarea>
+      </div>
+      <label class="field-checkbox">
+        <input type="checkbox">
+        <span>Send me occasional research briefs and public advisories. No vendor newsletters; one or two emails a quarter at most.</span>
+      </label>
+      <button type="submit" class="btn btn-primary form-submit">Submit inquiry →</button>
+    </form>
   </div>
-  <aside class="manifesto-aside">
-    <p>Netvestigate exists for organizations that have outgrown advisory built on fear and templates. Our clients tend to be technical, opinionated, and skeptical — which is exactly the working relationship we want.</p>
-    <p>We don't take engagements we cannot defend in a postmortem. We don't ghost-write findings. And we don't pretend a scanner output is a strategy.</p>
-    <span class="signature">— The Netvestigate practice</span>
-  </aside>
 </section>
 
-<!-- ───────── CTA ───────── -->
-<section class="cta" id="contact">
-  <div class="cta-overline">— Engagements open Q3 / Limited intake</div>
-  <h2>Bring us a <em>question</em><br>worth answering.</h2>
-  <a href="mailto:hello@netvestigate.com" class="cta-btn">
-    hello@netvestigate.com
-    <span>→</span>
-  </a>
-</section>
-
-<!-- ───────── FOOTER ───────── -->
 <footer>
-  <div>
-    <div class="foot-brand">Net<em style="font-style:italic;font-weight:300;color:var(--paper-dim);">vestigate</em></div>
-    <p class="foot-brand-tag">A cybersecurity research and consulting firm. Evidence over opinion, judgment over checklists.</p>
+  <div class="foot-grid">
+    <div>
+      <div class="foot-brand">Net<em style="font-style:italic;font-weight:300;color:var(--paper-dim);">vestigate</em></div>
+      <p class="foot-brand-tag">A research-led cybersecurity advisory firm. Evidence over opinion, judgment over checklists.</p>
+      <div class="foot-social">
+        <a href="#">LinkedIn</a>
+        <a href="#">GitHub</a>
+        <a href="#">RSS</a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">Threat Research</a></li>
+        <li><a href="#services">Security Architecture</a></li>
+        <li><a href="#services">Adversary Simulation</a></li>
+        <li><a href="#services">Detection Engineering</a></li>
+        <li><a href="#services">Incident Response</a></li>
+        <li><a href="#services">Executive Advisory</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Industries</h5>
+      <ul>
+        <li><a href="#industries">Financial Services</a></li>
+        <li><a href="#industries">Healthcare</a></li>
+        <li><a href="#industries">Technology &amp; SaaS</a></li>
+        <li><a href="#industries">Federal</a></li>
+        <li><a href="#industries">Critical Infrastructure</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Firm</h5>
+      <ul>
+        <li><a href="#why">Why Us</a></li>
+        <li><a href="#case-study">Client Stories</a></li>
+        <li><a href="#insights">Research &amp; Insights</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:hello@netvestigate.com">hello@netvestigate.com</a></li>
+        <li><a href="mailto:security@netvestigate.com">Security disclosure</a></li>
+        <li><a href="mailto:press@netvestigate.com">Press</a></li>
+        <li><a href="#contact">Secure intake (PGP)</a></li>
+      </ul>
+    </div>
   </div>
-
-  <div class="foot-col">
-    <h5>Practice</h5>
-    <ul>
-      <li><a href="#practice">Threat Research</a></li>
-      <li><a href="#practice">Security Consulting</a></li>
-      <li><a href="#practice">Adversary Simulation</a></li>
-    </ul>
-  </div>
-
-  <div class="foot-col">
-    <h5>Firm</h5>
-    <ul>
-      <li><a href="#approach">Approach</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
-
-  <div class="foot-col">
-    <h5>Contact</h5>
-    <ul>
-      <li><a href="mailto:hello@netvestigate.com">hello@netvestigate.com</a></li>
-      <li><a href="#">Secure intake (PGP)</a></li>
-      <li><a href="#">Responsible disclosure</a></li>
-    </ul>
-  </div>
-
   <div class="foot-bar">
     <span>© 2026 Netvestigate, LLC&nbsp;&nbsp;·&nbsp;&nbsp;All rights reserved</span>
-    <span>Built on evidence&nbsp;&nbsp;·&nbsp;&nbsp;netvestigate.com</span>
+    <div class="legal-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Responsible disclosure</a>
+      <a href="#">Accessibility</a>
+    </div>
   </div>
 </footer>
 
 <script>
-  // Subtle parallax for the corner marks on the hero
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
   const tl = document.querySelector('.corner-tl');
   const tr = document.querySelector('.corner-tr');
   document.addEventListener('mousemove', (e) => {
@@ -1056,25 +793,6 @@ footer {
     tl.style.transform = `translate(${x}px, ${y}px)`;
     tr.style.transform = `translate(${-x}px, ${-y}px)`;
   });
-
-  // Reveal on scroll for sections after the hero
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = 1;
-        e.target.style.transform = 'translateY(0)';
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('section, .metrics').forEach(el => {
-    el.style.opacity = 0;
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1)';
-    io.observe(el);
-  });
 </script>
-
 </body>
 </html>
